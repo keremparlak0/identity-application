@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Api.Models;
+using Api.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -7,10 +9,18 @@ namespace Api.Controllers
     [ApiController]
     public class TrialController : ControllerBase
     {
-        [HttpGet]
-        public async Task<IActionResult> GetAraBulGetir()
+        private readonly JwtService _jwtService;
+
+        public TrialController(JwtService jwtService)
         {
-            return Ok("Get hele");
+            _jwtService = jwtService;
+        }
+
+        [HttpPost]
+        public IActionResult CreateJwt([FromBody]User user)
+        {
+            string token = _jwtService.CreateJWT(user);
+            return Ok(token);
         }
     }
 }
