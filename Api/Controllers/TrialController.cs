@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]/[action]")]
     [ApiController]
     public class TrialController : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> GetAraBulGetir()
+        public IActionResult GetAraBulGetir()
         {
             return Ok("Get hele");
         }
