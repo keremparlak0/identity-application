@@ -19,7 +19,7 @@ namespace Api.Services
             _securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Key"]));
         }
 
-        public async Task<string> CreateJWT(User user)
+        public string CreateJWT(User user)
         {
             var userClaims = new List<Claim>(){
                 new(ClaimTypes.NameIdentifier, user.Id),
@@ -27,8 +27,6 @@ namespace Api.Services
                 new(ClaimTypes.GivenName, user.FirstName),
                 new(ClaimTypes.Surname, user.LastName)
             };
-
-            var roles = await _userManager.GetRolesAsync(user);
 
             var credentials = new SigningCredentials(_securityKey, SecurityAlgorithms.HmacSha256);
 
@@ -47,8 +45,3 @@ namespace Api.Services
         }
     }
 }
-
-/* 
- public async Task<string> CreateJWT(User user)
- public RefreshToken CreateRefreshToken(User user)
-*/

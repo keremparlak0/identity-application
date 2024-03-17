@@ -1,6 +1,8 @@
-﻿using Api.DTOs.Account;
+﻿using System.Security.Claims;
+using Api.DTOs.Account;
 using Api.Models;
 using Api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +28,16 @@ namespace Api.Controllers
         }
 
 
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<UserDto>> RefreshUserToken()
+        {
+            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.Email)?.Value);
+
+            return CreateAplicationUserDto(user);
+        }
+
+
         [HttpPost]
         public async Task<ActionResult<UserDto>> Login([FromBody] LoginDto model)
         {
@@ -43,7 +55,7 @@ namespace Api.Controllers
             if (!result.Succeeded)
                 return Unauthorized("Invaild username or password");
 
-            return await CreateAplicationUserDtoAsync(user);
+            return CreateAplicationUserDto(user);
         }
 
         [HttpPost]
@@ -59,6 +71,7 @@ namespace Api.Controllers
                 FirstName = model.FirstName.ToLower(),
                 LastName = model.LastName.ToLower(),
                 Email = model.Email.ToLower(),
+                UserName = model.Email.ToLower(),
                 EmailConfirmed = true
             };
 
@@ -71,13 +84,13 @@ namespace Api.Controllers
 
 
 
-        private async Task<UserDto> CreateAplicationUserDtoAsync(User user)
+        private UserDto CreateAplicationUserDto(User user)
         {
             return new UserDto
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                JWT = await _jwtService.CreateJWT(user)
+                JWT = _jwtService.CreateJWT(user)
             };
         }
 
