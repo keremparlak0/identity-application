@@ -12,4 +12,10 @@ import { RouterModule } from '@angular/router';
 })
 export class NavbarComponent {
 
+  constructor() {
+
+  }
+  menuButonEvent() {
+    document.querySelector("#mobile-menu");
+  }
 }

@@ -1,1 +1,29 @@
-<p>register works!</p>
+<div class="flex justify-center w-full">
+    <div class="grid grid-cols-1 justify-items-center mt-5">
+        <p class="text-3xl">Register Page</p>
+        <form class="flex flex-col mt-5" [formGroup]="registerForm" (ngSubmit)="register()">
+            <mat-form-field>
+                <mat-label>First Name</mat-label>
+                <input matInput formControlName="firstName">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Last Name</mat-label>
+                <input matInput formControlName="lastName">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input matInput type="email" formControlName="password">
+            </mat-form-field>
+            <div class="place-self-end">
+                <button mat-stroked-button class="w-40" color="primary">Register</button>
+            </div>
+        </form>
+    </div>
+</div>
