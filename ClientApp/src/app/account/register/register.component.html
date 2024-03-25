@@ -1,26 +1,46 @@
 <div class="flex justify-center w-full">
-    <div class="grid grid-cols-1 justify-items-center mt-5">
+    <div class="grid justify-items-center mt-5 w-full">
         <p class="text-3xl">Register Page</p>
-        <form class="flex flex-col mt-5" [formGroup]="registerForm" (ngSubmit)="register()">
+        <form class="flex flex-col gap-4 mt-5 min-w-72" [formGroup]="registerForm" (ngSubmit)="register()">
             <mat-form-field>
                 <mat-label>First Name</mat-label>
                 <input matInput formControlName="firstName">
+                <mat-error class="warn" *ngIf="isSubmitted &&  registerForm.get('firstName')?.hasError('required')">
+                    First Name is required.</mat-error>
+                <mat-error class="warn" *ngIf="isSubmitted &&  registerForm.get('firstName')?.hasError('minlength')">
+                    First Name must be at least 3 characters.</mat-error>
             </mat-form-field>
+
 
             <mat-form-field>
                 <mat-label>Last Name</mat-label>
                 <input matInput formControlName="lastName">
+                <mat-error class="warn" *ngIf="isSubmitted &&  registerForm.get('lastName')?.hasError('required')">
+                    First Name is required.</mat-error>
             </mat-form-field>
+
 
             <mat-form-field>
                 <mat-label>Email</mat-label>
-                <input matInput formControlName="email">
+                <input matInput type="email" formControlName="email">
+                <mat-error class="warn" *ngIf="isSubmitted &&  registerForm.get('email')?.hasError('email')">
+                    Invalid email address.
+                </mat-error>
+                <mat-error class="warn" *ngIf="isSubmitted &&  registerForm.get('email')?.hasError('required')">
+                    Email is required.</mat-error>
             </mat-form-field>
+
 
             <mat-form-field>
                 <mat-label>Password</mat-label>
-                <input matInput type="email" formControlName="password">
+                <input matInput formControlName="password">
+                <mat-error class="warn" *ngIf="isSubmitted &&  registerForm.get('password')?.hasError('required')">
+                    Password is required.</mat-error>
+                <mat-error class="warn" *ngIf="isSubmitted &&  registerForm.get('password')?.hasError('minlength')">
+                    Password must be at least 6 characters.</mat-error>
             </mat-form-field>
+
+
             <div class="place-self-end">
                 <button mat-stroked-button class="w-40" color="primary">Register</button>
             </div>

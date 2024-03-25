@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup = new FormGroup([]);
-  submitted = false;
+  isSubmitted = false;
   errorMessages: string[] = [];
 
   constructor(
@@ -24,26 +24,31 @@ export class RegisterComponent implements OnInit {
 
   initForm() {
     this.registerForm = this.formBuilder.group({
-      firstName: ["", [Validators.required, Validators.maxLength(3)]],
-      lastName: ["", [Validators.required, Validators.maxLength(3)]],
+      firstName: ["", [Validators.required, Validators.minLength(3)]],
+      lastName: ["", [Validators.required, Validators.minLength(3)]],
       email: ["", [Validators.required, Validators.email]],
       password: ["", [Validators.required, Validators.minLength(6)]],
 
     })
   }
   register() {
+    this.isSubmitted = true;
+    this.errorMessages = []
 
-    this.accountService.register(this.registerForm.value)
-      .subscribe({
-        next: (response) => {
-          console.log(response);
+    if (this.registerForm.valid) {
+      this.accountService.register(this.registerForm.value)
+        .subscribe({
+          next: (response) => {
+            console.log(response);
 
-        },
-        error: (error) => {
-          console.log(error);
+          },
+          error: (error) => {
+            console.log(error);
 
-        }
-      });
+          }
+        });
+    }
+
   }
 
 }
